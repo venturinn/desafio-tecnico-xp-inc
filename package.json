@@ -21,5 +21,8 @@
     "eslint": "^8.19.0",
     "eslint-config-trybe-fundamentals": "^1.1.1",
     "eslint-plugin-sonarjs": "^0.13.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1"
   }
 }

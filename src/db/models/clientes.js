@@ -13,7 +13,7 @@ const Cliente = (sequelize, DataTypes) => {
       Senha: DataTypes.STRING,
     },
 
-    { timestamps: false, tableName: 'Clientes', underscored: true },
+    { timestamps: false, tableName: 'Clientes', underscored: false },
   );
 
   return Cliente;

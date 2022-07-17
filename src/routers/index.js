@@ -1,3 +1,4 @@
 const assetsRouter = require('./assets');
+const accountsRouter = require('./accounts');
 
-module.exports = { assetsRouter };
+module.exports = { assetsRouter, accountsRouter };

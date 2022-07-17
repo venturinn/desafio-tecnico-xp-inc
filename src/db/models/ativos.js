@@ -12,7 +12,7 @@ const Ativo = (sequelize, DataTypes) => {
       Valor: DataTypes.DECIMAL(10, 2),
     },
 
-    { timestamps: false, tableName: 'Ativos', underscored: true },
+    { timestamps: false, tableName: 'Ativos', underscored: false },
   );
 
   return Ativo;

@@ -8,7 +8,7 @@ const Operacao = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       QtdeAtivo: DataTypes.BIGINT,
-      Operacao: {
+      OperacaoX: {
         allowNull: false,
         type: DataTypes.STRING(1),
       },
@@ -23,20 +23,20 @@ const Operacao = (sequelize, DataTypes) => {
     }
   );
 
-  Operacao.associate = (models) => {
+/*   Operacao.associate = (models) => {
     models.Ativo.belongsToMany(models.Cliente, {
-      as: "clientes",
+      as: "Clientes",
       through: Operacao,
       foreignKey: "CodAtivo",
       otherKey: "CodCliente",
     });
     models.Cliente.belongsToMany(models.Ativo, {
-      as: "ativos",
+      as: "Ativos",
       through: Operacao,
       foreignKey: "CodCliente",
       otherKey: "CodAtivo",
     });
-  };
+  }; */
 
   return Operacao;
 };

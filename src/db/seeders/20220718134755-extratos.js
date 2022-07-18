@@ -5,14 +5,14 @@ module.exports = {
       [
         {
           cod_cliente: 11111,
-          cod_ativo: 1,
+          cod_ativo: 'IRBR3',
           qtde_ativo: 100,
           operacao: 'Venda',
           valor:1280
         },
         {
           cod_cliente: 11111,
-          cod_ativo: 2,
+          cod_ativo: 'PETR4',
           qtde_ativo: 1000,
           operacao: 'Compra',
           valor:1400

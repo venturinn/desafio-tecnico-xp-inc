@@ -3,11 +3,10 @@ const Ativo = (sequelize, DataTypes) => {
     'Ativo',
     {
       cod_ativo: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: false,
       },
-      ticker_ativo: DataTypes.STRING,
       qtde_ativo: DataTypes.BIGINT,
       valor: DataTypes.DECIMAL(10, 2),
     },

@@ -16,7 +16,7 @@ module.exports = {
       cod_ativo: {
         allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         onUpdate: 'CASCADE',
         references: {
           model: 'Ativos',

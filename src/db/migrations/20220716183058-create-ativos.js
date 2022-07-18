@@ -4,12 +4,8 @@ module.exports = {
     await queryInterface.createTable('Ativos', {
       cod_ativo: {
         allowNull: false,
-        autoIncrement: true,
+        autoIncrement: false,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      ticker_ativo: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       qtde_ativo: {

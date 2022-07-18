@@ -18,7 +18,7 @@ module.exports = {
       },
       cod_ativo: {
         allowNull: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'Ativos',
           key: 'cod_ativo',

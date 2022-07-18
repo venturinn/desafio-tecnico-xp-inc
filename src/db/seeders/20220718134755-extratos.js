@@ -4,28 +4,28 @@ module.exports = {
       'Extratos',
       [
         {
-          CodCliente: 98765,
-          CodAtivo: 1,
-          QtdeAtivo: 100,
-          Operacao: 'Venda',
-          Valor:1280
+          cod_cliente: 11111,
+          cod_ativo: 1,
+          qtde_ativo: 100,
+          operacao: 'Venda',
+          valor:1280
         },
         {
-          CodCliente: 58765,
-          CodAtivo: 2,
-          QtdeAtivo: 1000,
-          Operacao: 'Compra',
-          Valor:1400
+          cod_cliente: 11111,
+          cod_ativo: 2,
+          qtde_ativo: 1000,
+          operacao: 'Compra',
+          valor:1400
         },
         {
-          CodCliente: 58765,
-          Valor:10000.88,
-          Operacao: 'Deposito',
+          cod_cliente: 22222,
+          valor:10000.88,
+          operacao: 'Deposito',
         },
         {
-          CodCliente: 98765,
-          Valor:1000.99,
-          Operacao: 'Retirada',
+          cod_cliente: 33333,
+          valor:1000.99,
+          operacao: 'Retirada',
         },
       ],
       { timestamps: true },

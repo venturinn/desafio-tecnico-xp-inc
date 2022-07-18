@@ -2,18 +2,18 @@ const Cliente = (sequelize, DataTypes) => {
   const Cliente = sequelize.define(
     'Cliente',
     {
-      CodCliente: {
+      cod_cliente: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      Nome: DataTypes.STRING,
-      Email: DataTypes.STRING,
-      Saldo: DataTypes.DECIMAL(65, 2),
-      Senha: DataTypes.STRING,
+      nome: DataTypes.STRING,
+      email: DataTypes.STRING,
+      saldo: DataTypes.DECIMAL(65, 2),
+      senha: DataTypes.STRING,
     },
 
-    { timestamps: false, tableName: 'Clientes', underscored: false },
+    { timestamps: false, tableName: 'Clientes', underscored: true },
   );
 
   return Cliente;

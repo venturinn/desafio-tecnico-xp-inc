@@ -2,24 +2,24 @@ const Carteira = (sequelize, DataTypes) => {
   const Carteira = sequelize.define(
     'Carteira',
     {
-      QtdeAtivo: DataTypes.BIGINT,
+      qtde_ativo: DataTypes.BIGINT,
     },
 
-    { timestamps: false, tableName: 'Carteiras', underscored: false },
+    { timestamps: false, tableName: 'Carteiras', underscored: true },
   );
 
   Carteira.associate = (models) => {
     models.Ativo.belongsToMany(models.Cliente, {
       as: 'clientes',
       through: Carteira,
-      foreignKey: 'CodAtivo',
-      otherKey: 'CodCliente',
+      foreignKey: 'cod_ativo',
+      otherKey: 'cod_cliente',
     });
     models.Cliente.belongsToMany(models.Ativo, {
       as: 'ativos',
       through: Carteira,
-      foreignKey: 'CodCliente',
-      otherKey: 'CodAtivo',
+      foreignKey: 'cod_cliente',
+      otherKey: 'cod_ativo',
     });
   };
 

@@ -2,19 +2,19 @@ const Extrato = (sequelize, DataTypes) => {
   const Extrato = sequelize.define(
     "Extrato",
     {
-      CodOperacao: {
+      cod_operacao: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      CodAtivo: DataTypes.INTEGER,
-      CodCliente: DataTypes.INTEGER,
-      QtdeAtivo: DataTypes.BIGINT,
-      Valor:{
+      cod_ativo: DataTypes.INTEGER,
+      cod_cliente: DataTypes.INTEGER,
+      qtde_ativo: DataTypes.BIGINT,
+      valor:{
         allowNull: false,
         type: DataTypes.DECIMAL(65, 2),
       },
-      Operacao: {
+      operacao: {
         allowNull: false,
         type: DataTypes.STRING(),
       },
@@ -25,7 +25,7 @@ const Extrato = (sequelize, DataTypes) => {
       timestamps: true,
       updatedAt: false,
       tableName: "Extratos",
-      underscored: false,
+      underscored: true,
     }
   );
   return Extrato;

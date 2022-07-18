@@ -1,25 +1,25 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Clientes', {
-      CodCliente: {
+      cod_cliente: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      Nome: {
+      nome: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      Email: {
+      email: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      Senha: {
+      senha: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      Saldo: {
+      saldo: {
         allowNull: false,
         type: Sequelize.DECIMAL(65, 2),
       },

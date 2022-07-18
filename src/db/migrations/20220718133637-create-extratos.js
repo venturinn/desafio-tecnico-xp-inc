@@ -2,37 +2,37 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Extratos', {
-      CodOperacao: {
+      cod_operacao: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      CodCliente: {
+      cod_cliente: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Clientes',
-          key: 'CodCliente',
+          key: 'cod_cliente',
         },
       },
-      CodAtivo: {
+      cod_ativo: {
         allowNull: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'Ativos',
-          key: 'CodAtivo',
+          key: 'cod_ativo',
         },
       },
-      QtdeAtivo: {
+      qtde_ativo: {
         allowNull: true,
         type: Sequelize.BIGINT
       },
-      Operacao:{
+      operacao:{
         allowNull: false,
         type: Sequelize.STRING(),
       },
-      Valor:{
+      valor:{
         allowNull: false,
         type: Sequelize.DECIMAL(65, 2),
       },
@@ -40,7 +40,7 @@ module.exports = {
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: 'TIMESTAMP',
-        field:'Data',
+        field:'data',
       },
     });
   },

@@ -2,21 +2,21 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Ativos', {
-      CodAtivo: {
+      cod_ativo: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      TickerAtivo: {
+      ticker_ativo: {
         allowNull: false,
         type: Sequelize.STRING
       },
-      QtdeAtivo: {
+      qtde_ativo: {
         allowNull: false,
         type: Sequelize.BIGINT
       },
-      Valor: {
+      valor: {
         allowNull: false,
         type: Sequelize.DECIMAL(10, 2)
       },

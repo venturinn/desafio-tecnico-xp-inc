@@ -2,7 +2,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Carteiras', {
-      CodCliente: {
+      cod_cliente: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
@@ -10,20 +10,20 @@ module.exports = {
         onDelete: 'CASCADE',
         references: {
           model: 'Clientes',
-          key: 'CodCliente',
+          key: 'cod_cliente',
         },
       },
-      CodAtivo: {
+      cod_ativo: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
         onUpdate: 'CASCADE',
         references: {
           model: 'Ativos',
-          key: 'CodAtivo',
+          key: 'cod_ativo',
         },
       },
-      QtdeAtivo: {
+      qtde_ativo: {
         type: Sequelize.BIGINT
       },
     });

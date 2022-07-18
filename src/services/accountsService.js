@@ -35,16 +35,16 @@ const getAccountBalanceByClientId = async (id) => {
   return accountBalance;
 };
 
-const makeDepositTransaction = async (CodCliente, Valor, oldSaldo) => {
+const makeAccountTransaction = async (CodCliente, Valor, newSaldo, transactionType) => {
     const t = await sequelize.transaction();
     try {
       const updatededAccountBalance = await Cliente.update(
-        { Saldo: oldSaldo + Valor },
+        { Saldo: newSaldo },
         { where: { CodCliente }, transaction: t },
       );
       if (updatededAccountBalance[0] === 0) { updateError(); }
   
-      await Extrato.create({ CodCliente, Valor, Operacao: 'Deposito' }, { transaction: t });
+      await Extrato.create({ CodCliente, Valor, Operacao: transactionType }, { transaction: t });
   
       await t.commit();
     } catch (e) {
@@ -62,7 +62,9 @@ const makeAccountDeposit = async (CodCliente, Valor) => {
     return { error: nonexistentClientError };
   }
 
-  await makeDepositTransaction(CodCliente, Valor, oldAccountBalance.Saldo);
+  const newSaldo = oldAccountBalance.Saldo + Valor;
+
+  await makeAccountTransaction(CodCliente, Valor, newSaldo, 'Deposito');
   const newAccountBalance = await getAccountBalanceByClientId(CodCliente);
   return newAccountBalance;
 };
@@ -73,18 +75,13 @@ const makeAccountWithdrawal = async (CodCliente, Valor) => {
   if (oldAccountBalance.error) {
     return { error: nonexistentClientError };
   }
-  if (oldAccountBalance.Saldo - Valor < 0) {
+  
+  const newSaldo = oldAccountBalance.Saldo - Valor;
+  if (newSaldo < 0) {
     return { error: insufficientFundsError };
   }
 
-  const updatededAccountBalance = await Cliente.update(
-    { Saldo: oldAccountBalance.Saldo - Valor },
-    { where: { CodCliente } },
-  );
-
-  if (updatededAccountBalance[0] === 0) {
-    updateError();
-  }
+  await makeAccountTransaction(CodCliente, Valor, newSaldo, 'Retirada');
 
   const newAccountBalance = await getAccountBalanceByClientId(CodCliente);
   return newAccountBalance;

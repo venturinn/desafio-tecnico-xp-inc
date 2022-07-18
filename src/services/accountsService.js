@@ -7,14 +7,23 @@ const updateError = () => {
     error.code = StatusCodes.SERVICE_UNAVAILABLE;
     throw error;
 };
+
+const nonexistentClientError = {
+    code: StatusCodes.NOT_FOUND,
+    message: 'Client does not exist',
+};
+
+const insufficientFundsError = {
+    code: StatusCodes.UNAUTHORIZED,
+    message: 'Insufficient funds',
+};
+
 const getAccountBalanceByClientId = async (id) => {
   const accountBalance = await Cliente.findByPk(id, {
     attributes: { exclude: ['Nome', 'Email', 'Senha'] },
   });
 
-  if (!accountBalance) {
-    return null;
-  }
+  if (!accountBalance) { return { error: nonexistentClientError }; }
 
   accountBalance.Saldo = Number(accountBalance.Saldo); // MySQL decimal field returned as string
   return accountBalance;
@@ -22,10 +31,8 @@ const getAccountBalanceByClientId = async (id) => {
 
 const makeAccountDeposit = async (CodCliente, Valor) => {
   const oldAccountBalance = await getAccountBalanceByClientId(CodCliente);
-
-  if (!oldAccountBalance) {
-    return null;
-  }
+  
+  if (oldAccountBalance.error) { return { error: nonexistentClientError }; }
 
   const updatededAccountBalance = await Cliente.update(
     { Saldo: Valor + oldAccountBalance.Saldo },
@@ -41,16 +48,8 @@ const makeAccountDeposit = async (CodCliente, Valor) => {
 const makeAccountWithdrawal = async (CodCliente, Valor) => {
     const oldAccountBalance = await getAccountBalanceByClientId(CodCliente);
   
-    if (!oldAccountBalance) {
-      return null;
-    }
-
-    if (oldAccountBalance.Saldo - Valor < 0) {
-        const error = new Error();
-        error.message = 'Insufficient funds';
-        error.code = StatusCodes.UNAUTHORIZED;
-        throw error;
-    }
+    if (oldAccountBalance.error) { return { error: nonexistentClientError }; }
+    if (oldAccountBalance.Saldo - Valor < 0) { return { error: insufficientFundsError }; }
   
     const updatededAccountBalance = await Cliente.update(
       { Saldo: oldAccountBalance.Saldo - Valor },

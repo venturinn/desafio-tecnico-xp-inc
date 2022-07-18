@@ -1,7 +1,8 @@
+const { StatusCodes } = require('http-status-codes');
 const accountsService = require('../services/accountsService');
 
 const nonexistentClientError = {
-    code: 404,
+    code: StatusCodes.NOT_FOUND,
     message: 'Client does not exist',
 };
 const getAccountBalanceByClientId = async (req, res, next) => {
@@ -10,7 +11,7 @@ const getAccountBalanceByClientId = async (req, res, next) => {
 
    if (!accountBalance) { return next(nonexistentClientError); }
 
-    res.status(200).json(accountBalance);
+    res.status(StatusCodes.OK).json(accountBalance);
 };
 const makeAccountDeposit = async (req, res, next) => {
     const { CodCliente, Valor } = req.body;
@@ -18,7 +19,7 @@ const makeAccountDeposit = async (req, res, next) => {
 
     if (!newAccountBalance) { return next(nonexistentClientError); }
 
-    res.status(200).json(newAccountBalance);
+    res.status(StatusCodes.OK).json(newAccountBalance);
 };
 
 const makeAccountWithdrawal = async (req, res, next) => {
@@ -27,7 +28,7 @@ const makeAccountWithdrawal = async (req, res, next) => {
 
     if (!newAccountBalance) { return next(nonexistentClientError); }
 
-    res.status(200).json(newAccountBalance);
+    res.status(StatusCodes.OK).json(newAccountBalance);
 };
 
 module.exports = {

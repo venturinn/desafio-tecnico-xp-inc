@@ -1,9 +1,10 @@
+const { StatusCodes } = require('http-status-codes');
 const { Cliente } = require('../db/models');
 
 const updateError = () => {
     const error = new Error();
     error.message = 'Database fail to update';
-    error.code = 502;
+    error.code = StatusCodes.SERVICE_UNAVAILABLE;
     throw error;
 };
 const getAccountBalanceByClientId = async (id) => {
@@ -47,7 +48,7 @@ const makeAccountWithdrawal = async (CodCliente, Valor) => {
     if (oldAccountBalance.Saldo - Valor < 0) {
         const error = new Error();
         error.message = 'Insufficient funds';
-        error.code = 400;
+        error.code = StatusCodes.UNAUTHORIZED;
         throw error;
     }
   

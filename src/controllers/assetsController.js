@@ -1,3 +1,4 @@
+const { StatusCodes } = require('http-status-codes');
 const assetsService = require('../services/assetsService');
 
 const getAssetById = async (req, res, next) => {
@@ -6,7 +7,7 @@ const getAssetById = async (req, res, next) => {
 
     if (!asset) {
       return next({
-        code: 404,
+        code: StatusCodes.NOT_FOUND,
         message: 'Asset does not exist',
       });
     }

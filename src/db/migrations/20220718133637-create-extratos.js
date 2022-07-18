@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Operacoes', {
+    await queryInterface.createTable('Extratos', {
       CodOperacao: {
         allowNull: false,
         autoIncrement: true,
@@ -17,7 +17,7 @@ module.exports = {
         },
       },
       CodAtivo: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'Ativos',
@@ -25,12 +25,16 @@ module.exports = {
         },
       },
       QtdeAtivo: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BIGINT
       },
       Operacao:{
         allowNull: false,
-        type: Sequelize.STRING(1),
+        type: Sequelize.STRING(),
+      },
+      Valor:{
+        allowNull: false,
+        type: Sequelize.DECIMAL(65, 2),
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +45,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Operacoes');
+    await queryInterface.dropTable('Extratos');
   }
 };

@@ -1,5 +1,5 @@
 const Extrato = (sequelize, DataTypes) => {
-  const Carteira = sequelize.define(
+  const Extrato = sequelize.define(
     "Extrato",
     {
       CodOperacao: {
@@ -7,6 +7,7 @@ const Extrato = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      CodCliente: DataTypes.INTEGER,
       QtdeAtivo: DataTypes.BIGINT,
       Valor:{
         allowNull: false,
@@ -23,7 +24,7 @@ const Extrato = (sequelize, DataTypes) => {
       timestamps: true,
       updatedAt: false,
       tableName: "Extratos",
-      underscored: true,
+      underscored: false,
     }
   );
   return Extrato;

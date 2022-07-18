@@ -13,7 +13,21 @@ const getAccountBalanceByClientId = async (req, res, next) => {
 
     res.status(200).json(accountBalance);
 };
+const makeAccountDeposit = async (req, res, next) => {
+    const { CodCliente, Valor } = req.body;
+    const newAccountBalance = await accountsService.makeAccountDeposit(CodCliente, Valor);
+
+    if (!newAccountBalance) {
+      return next({
+        code: 404,
+        message: 'Client does not exist',
+      });
+    }
+
+    res.status(200).json(newAccountBalance);
+};
 
 module.exports = {
     getAccountBalanceByClientId,
+    makeAccountDeposit,
 };

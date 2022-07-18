@@ -7,6 +7,7 @@ const Extrato = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      CodAtivo: DataTypes.INTEGER,
       CodCliente: DataTypes.INTEGER,
       QtdeAtivo: DataTypes.BIGINT,
       Valor:{

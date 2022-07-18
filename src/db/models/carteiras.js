@@ -5,7 +5,7 @@ const Carteira = (sequelize, DataTypes) => {
       QtdeAtivo: DataTypes.BIGINT,
     },
 
-    { timestamps: false, tableName: 'Carteiras', underscored: true },
+    { timestamps: false, tableName: 'Carteiras', underscored: false },
   );
 
   Carteira.associate = (models) => {

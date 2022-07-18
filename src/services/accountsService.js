@@ -5,13 +5,6 @@ const config = require('../db/config/config');
 const sequelize = new Sequelize(config.development);
 const { Cliente, Extrato } = require('../db/models');
 
-const updateError = () => {
-  const error = new Error();
-  error.message = 'Database fail to update';
-  error.code = StatusCodes.SERVICE_UNAVAILABLE;
-  throw error;
-};
-
 const nonexistentClientError = {
   code: StatusCodes.NOT_FOUND,
   message: 'Client does not exist',
@@ -38,12 +31,11 @@ const getAccountBalanceByClientId = async (id) => {
 const makeAccountTransaction = async (CodCliente, Valor, newSaldo, transactionType) => {
     const t = await sequelize.transaction();
     try {
-      const updatededAccountBalance = await Cliente.update(
+        await Cliente.update(
         { Saldo: newSaldo },
         { where: { CodCliente }, transaction: t },
       );
-      if (updatededAccountBalance[0] === 0) { updateError(); }
-  
+        
       await Extrato.create({ CodCliente, Valor, Operacao: transactionType }, { transaction: t });
   
       await t.commit();
@@ -58,9 +50,7 @@ const makeAccountTransaction = async (CodCliente, Valor, newSaldo, transactionTy
 const makeAccountDeposit = async (CodCliente, Valor) => {
   const oldAccountBalance = await getAccountBalanceByClientId(CodCliente);
 
-  if (oldAccountBalance.error) {
-    return { error: nonexistentClientError };
-  }
+  if (oldAccountBalance.error) { return oldAccountBalance; }
 
   const newSaldo = oldAccountBalance.Saldo + Valor;
 
@@ -72,10 +62,8 @@ const makeAccountDeposit = async (CodCliente, Valor) => {
 const makeAccountWithdrawal = async (CodCliente, Valor) => {
   const oldAccountBalance = await getAccountBalanceByClientId(CodCliente);
 
-  if (oldAccountBalance.error) {
-    return { error: nonexistentClientError };
-  }
-  
+  if (oldAccountBalance.error) { return oldAccountBalance; }
+
   const newSaldo = oldAccountBalance.Saldo - Valor;
   if (newSaldo < 0) {
     return { error: insufficientFundsError };

@@ -12,14 +12,14 @@ const Carteira = (sequelize, DataTypes) => {
     models.Ativo.belongsToMany(models.Cliente, {
       as: 'clientes',
       through: Carteira,
-      foreignKey: 'cod_ativo',
-      otherKey: 'cod_cliente',
+      foreignKey: 'codAtivo',
+      otherKey: 'codCliente',
     });
     models.Cliente.belongsToMany(models.Ativo, {
       as: 'ativos',
       through: Carteira,
-      foreignKey: 'cod_cliente',
-      otherKey: 'cod_ativo',
+      foreignKey: 'codCliente',
+      otherKey: 'codAtivo',
     });
   };
 

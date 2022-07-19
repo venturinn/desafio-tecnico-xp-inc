@@ -10,8 +10,8 @@ const getAccountBalanceByClientId = async (req, res, next) => {
     res.status(StatusCodes.OK).json(accountBalance);
 };
 const makeAccountDeposit = async (req, res, next) => {
-    const { CodCliente, Valor } = req.body;
-    const newAccountBalance = await accountsService.makeAccountDeposit(CodCliente, Valor);
+    const { codCliente, valor } = req.body;
+    const newAccountBalance = await accountsService.makeAccountDeposit(codCliente, valor);
 
     if (newAccountBalance.error) { return next(newAccountBalance.error); }
 
@@ -19,8 +19,8 @@ const makeAccountDeposit = async (req, res, next) => {
 };
 
 const makeAccountWithdrawal = async (req, res, next) => {
-    const { CodCliente, Valor } = req.body;
-    const newAccountBalance = await accountsService.makeAccountWithdrawal(CodCliente, Valor);
+    const { codCliente, valor } = req.body;
+    const newAccountBalance = await accountsService.makeAccountWithdrawal(codCliente, valor);
 
     if (newAccountBalance.error) { return next(newAccountBalance.error); }
 

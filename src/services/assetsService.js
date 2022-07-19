@@ -15,7 +15,7 @@ const getAssetById = async (id) => {
     };
   }
 
-  asset.Valor = Number(asset.Valor); // MySQL decimal field returned as string
+  asset.valor = Number(asset.valor); // MySQL decimal field returned as string
   return asset;
 };
 

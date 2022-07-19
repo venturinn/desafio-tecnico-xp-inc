@@ -17,26 +17,26 @@ const insufficientFundsError = {
 
 const getAccountBalanceByClientId = async (id) => {
   const accountBalance = await Cliente.findByPk(id, {
-    attributes: { exclude: ['Nome', 'Email', 'Senha'] },
+    attributes: { exclude: ['nome', 'email', 'senha'] },
   });
 
   if (!accountBalance) {
     return { error: nonexistentClientError };
   }
 
-  accountBalance.Saldo = Number(accountBalance.Saldo); // MySQL decimal field returned as string
+  accountBalance.saldo = Number(accountBalance.saldo); // MySQL decimal field returned as string
   return accountBalance;
 };
 
-const makeAccountTransaction = async (CodCliente, Valor, newSaldo, transactionType) => {
+const makeAccountTransaction = async (codCliente, valor, newSaldo, transactionType) => {
     const t = await sequelize.transaction();
     try {
         await Cliente.update(
-        { Saldo: newSaldo },
-        { where: { CodCliente }, transaction: t },
+        { saldo: newSaldo },
+        { where: { codCliente }, transaction: t },
       );
         
-      await Extrato.create({ CodCliente, Valor, Operacao: transactionType }, { transaction: t });
+      await Extrato.create({ codCliente, valor, operacao: transactionType }, { transaction: t });
   
       await t.commit();
     } catch (e) {
@@ -47,31 +47,31 @@ const makeAccountTransaction = async (CodCliente, Valor, newSaldo, transactionTy
     }
 };
 
-const makeAccountDeposit = async (CodCliente, Valor) => {
-  const oldAccountBalance = await getAccountBalanceByClientId(CodCliente);
+const makeAccountDeposit = async (codCliente, valor) => {
+  const oldAccountBalance = await getAccountBalanceByClientId(codCliente);
 
   if (oldAccountBalance.error) { return oldAccountBalance; }
 
-  const newSaldo = oldAccountBalance.Saldo + Valor;
+  const newSaldo = oldAccountBalance.saldo + valor;
 
-  await makeAccountTransaction(CodCliente, Valor, newSaldo, 'Deposito');
-  const newAccountBalance = await getAccountBalanceByClientId(CodCliente);
+  await makeAccountTransaction(codCliente, valor, newSaldo, 'Deposito');
+  const newAccountBalance = await getAccountBalanceByClientId(codCliente);
   return newAccountBalance;
 };
 
-const makeAccountWithdrawal = async (CodCliente, Valor) => {
-  const oldAccountBalance = await getAccountBalanceByClientId(CodCliente);
+const makeAccountWithdrawal = async (codCliente, valor) => {
+  const oldAccountBalance = await getAccountBalanceByClientId(codCliente);
 
   if (oldAccountBalance.error) { return oldAccountBalance; }
 
-  const newSaldo = oldAccountBalance.Saldo - Valor;
+  const newSaldo = oldAccountBalance.saldo - valor;
   if (newSaldo < 0) {
     return { error: insufficientFundsError };
   }
 
-  await makeAccountTransaction(CodCliente, Valor, newSaldo, 'Retirada');
+  await makeAccountTransaction(codCliente, valor, newSaldo, 'Retirada');
 
-  const newAccountBalance = await getAccountBalanceByClientId(CodCliente);
+  const newAccountBalance = await getAccountBalanceByClientId(codCliente);
   return newAccountBalance;
 };
 

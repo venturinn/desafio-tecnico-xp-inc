@@ -2,12 +2,12 @@ const { StatusCodes } = require('http-status-codes');
 const Joi = require('joi');
 
 module.exports = (req, _res, next) => {
-  const { CodCliente, Valor } = req.body;
+  const { codCliente, valor } = req.body;
   const { error } = Joi.object({
-    CodCliente: Joi.number().strict().integer().required(),
-    Valor: Joi.number().strict().min(0.01).precision(2)
+    codCliente: Joi.number().strict().integer().required(),
+    valor: Joi.number().strict().min(0.01).precision(2)
 .required(),
-  }).validate({ CodCliente, Valor });
+  }).validate({ codCliente, valor });
 
   if (error) {
     return next({

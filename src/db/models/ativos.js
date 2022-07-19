@@ -2,12 +2,12 @@ const Ativo = (sequelize, DataTypes) => {
   const Ativo = sequelize.define(
     'Ativo',
     {
-      cod_ativo: {
+      codAtivo: {
         type: DataTypes.STRING,
         primaryKey: true,
         autoIncrement: false,
       },
-      qtde_ativo: DataTypes.BIGINT,
+      qtdeAtivo: DataTypes.BIGINT,
       valor: DataTypes.DECIMAL(10, 2),
     },
 

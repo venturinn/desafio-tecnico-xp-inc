@@ -2,7 +2,7 @@ const Carteira = (sequelize, DataTypes) => {
   const Carteira = sequelize.define(
     'Carteira',
     {
-      qtde_ativo: DataTypes.BIGINT,
+      qtdeAtivo: DataTypes.BIGINT,
     },
 
     { timestamps: false, tableName: 'Carteiras', underscored: true },

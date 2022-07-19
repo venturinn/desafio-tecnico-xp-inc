@@ -5,15 +5,7 @@ const config = require('../db/config/config');
 const sequelize = new Sequelize(config.development);
 const { Cliente, Extrato } = require('../db/models');
 
-const nonexistentClientError = {
-  code: StatusCodes.NOT_FOUND,
-  message: 'Client does not exist',
-};
-
-const insufficientFundsError = {
-  code: StatusCodes.UNAUTHORIZED,
-  message: 'Insufficient funds',
-};
+const { nonexistentClientError, insufficientFundsError } = require('../utils/errors');
 
 const getAccountBalanceByClientId = async (id) => {
   const accountBalance = await Cliente.findByPk(id, {

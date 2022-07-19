@@ -1,52 +1,52 @@
 const { StatusCodes } = require('http-status-codes');
 const Sequelize = require('sequelize');
 const { Ativo, Cliente, Carteira, Extrato } = require('../db/models');
-
 const config = require('../db/config/config');
 
 const sequelize = new Sequelize(config.development);
-
 const assetsService = require('./assetsService');
 const accountsService = require('./accountsService');
+const { insufficientAssetsError,
+    insufficientFundsError,
+    insufficientPortfolioError } = require('../utils/errors');
 
-const insufficientAssetsError = {
-  code: StatusCodes.UNAUTHORIZED,
-  message: 'Asset illiquid',
+const getAssetClientPortfolio = async (codCliente, codAtivo) => {
+  const assetClientPortfolio = await Carteira.findOne({
+    where: { codCliente, codAtivo },
+  });
+  return assetClientPortfolio;
 };
-const insufficientFundsError = {
-  code: StatusCodes.UNAUTHORIZED,
-  message: 'Insufficient funds',
-};
 
-let transactionData = {};
-
-const updateClientAccount = async (t) => {
-  const { codCliente, newSaldo } = transactionData;
+const updateClientAccount = async (t, data) => {
+  const { codCliente, newSaldo } = data;
   await Cliente.update(
     { saldo: newSaldo },
     { where: { codCliente }, transaction: t },
   );
 };
 
-const updateAsset = async (t) => {
-  const { newAssetQuantity, codAtivo } = transactionData;
+const updateAssetMarket = async (t, data) => {
+  const { newAssetQuantityMarket, codAtivo } = data;
   await Ativo.update(
-    { qtdeAtivo: newAssetQuantity },
+    { qtdeAtivo: newAssetQuantityMarket },
     { where: { codAtivo }, transaction: t },
   );
 };
-const updateClientPortfolio = async (t) => {
-  const { codCliente, codAtivo, qtdeAtivo } = transactionData;
-  const verifyAssetPortfolio = await Carteira.findOne(
-    { where: { codCliente, codAtivo } },
-    { transaction: t },
-  );
 
-  if (!verifyAssetPortfolio) {
-    await Carteira.create(
-      { codCliente, codAtivo, qtdeAtivo },
-      { transaction: t },
+const updateClientPortfolio = async (t, data) => {
+  const { codCliente, codAtivo, qtdeAtivo, transactionType, newAssetQuantityClient } = data;
+
+  if (transactionType === 'Venda') {
+    Carteira.update(
+      { qtdeAtivo: newAssetQuantityClient },
+      { where: { codAtivo, codCliente }, transaction: t },
     );
+    return;
+  }
+
+  const verifyAssetPortfolio = await getAssetClientPortfolio(codCliente, codAtivo);
+  if (!verifyAssetPortfolio) {
+    await Carteira.create({ codCliente, codAtivo, qtdeAtivo }, { transaction: t });
   } else {
     await Carteira.update(
       { qtdeAtivo: verifyAssetPortfolio.qtdeAtivo + qtdeAtivo },
@@ -55,12 +55,8 @@ const updateClientPortfolio = async (t) => {
   }
 };
 
-const updateStatement = async (t) => {
-  const { codCliente, 
-    codAtivo, 
-    qtdeAtivo, 
-    transactionValue, 
-    transactionType } = transactionData;
+const updateStatement = async (t, data) => {
+  const { codCliente, codAtivo, qtdeAtivo, transactionValue, transactionType } = data;
 
   await Extrato.create(
     {
@@ -74,13 +70,13 @@ const updateStatement = async (t) => {
   );
 };
 
-const assetTransaction = async () => {
+const assetTransaction = async (data) => {
   const t = await sequelize.transaction();
   try {
-    await updateClientAccount(t);
-    await updateAsset(t);
-    await updateClientPortfolio(t);
-    await updateStatement(t);
+    await updateClientAccount(t, data);
+    await updateAssetMarket(t, data);
+    await updateClientPortfolio(t, data);
+    await updateStatement(t, data);
 
     await t.commit();
   } catch (e) {
@@ -98,26 +94,60 @@ const buyAsset = async (codCliente, codAtivo, qtdeAtivo) => {
   const asset = await assetsService.getAssetById(codAtivo);
   if (asset.error) { return asset; }
 
-  const newAssetQuantity = asset.qtdeAtivo - qtdeAtivo;
-  if (newAssetQuantity < 0) { return { error: insufficientAssetsError }; }
+  const newAssetQuantityMarket = asset.qtdeAtivo - qtdeAtivo;
+  if (newAssetQuantityMarket < 0) { return { error: insufficientAssetsError }; }
 
   const transactionValue = qtdeAtivo * asset.valor;
   const newSaldo = accountBalance.saldo - transactionValue;
   if (newSaldo < 0) { return { error: insufficientFundsError }; }
 
-  transactionData = { codCliente,
+  const transactionData = { codCliente,
     codAtivo,
     qtdeAtivo,
     newSaldo,
-    newAssetQuantity,
+    newAssetQuantityMarket,
     transactionValue,
     transactionType: 'Compra' };
 
-  await assetTransaction();
+  await assetTransaction(transactionData);
 
-  return asset;
+  return 'Buy transaction done.';
+};
+
+// eslint-disable-next-line max-lines-per-function
+const sellAsset = async (codCliente, codAtivo, qtdeAtivo) => {
+  const accountBalance = await accountsService.getAccountBalanceByClientId(codCliente);
+  if (accountBalance.error) { return accountBalance; }
+
+  const asset = await assetsService.getAssetById(codAtivo);
+  if (asset.error) { return asset; }
+
+  const verifyAssetPortfolio = await getAssetClientPortfolio(codCliente, codAtivo);
+
+  if (!verifyAssetPortfolio || verifyAssetPortfolio.qtdeAtivo - qtdeAtivo < 0) {
+    return { error: insufficientPortfolioError }; 
+}
+  const newAssetQuantityClient = verifyAssetPortfolio.qtdeAtivo - qtdeAtivo;
+
+  const newAssetQuantityMarket = asset.qtdeAtivo + qtdeAtivo;
+  const transactionValue = qtdeAtivo * asset.valor;
+  const newSaldo = accountBalance.saldo + transactionValue;
+
+  const transactionData = { codCliente,
+    codAtivo,
+    qtdeAtivo,
+    newSaldo,
+    newAssetQuantityClient,
+    newAssetQuantityMarket,
+    transactionValue,
+    transactionType: 'Venda' };
+
+  await assetTransaction(transactionData);
+
+  return 'Sell transaction done.';
 };
 
 module.exports = {
   buyAsset,
+  sellAsset,
 };

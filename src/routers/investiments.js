@@ -6,5 +6,6 @@ const { assetTransactionValidate } = require('../middlewares');
 const investmentsRouter = express.Router();
 
 investmentsRouter.post('/comprar', assetTransactionValidate, investmentsController.buyAsset);
+investmentsRouter.post('/vender', assetTransactionValidate, investmentsController.sellAsset);
 
 module.exports = investmentsRouter;

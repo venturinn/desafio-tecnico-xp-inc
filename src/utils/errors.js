@@ -1,16 +1,16 @@
 const { StatusCodes } = require('http-status-codes');
 
 const insufficientAssetsError = {
-  code: StatusCodes.UNAUTHORIZED,
+  code: StatusCodes.BAD_REQUEST,
   message: 'Asset illiquid',
 };
 const insufficientFundsError = {
-  code: StatusCodes.UNAUTHORIZED,
+  code: StatusCodes.BAD_REQUEST,
   message: 'Insufficient funds',
 };
 
 const insufficientPortfolioError = {
-  code: StatusCodes.UNAUTHORIZED,
+  code: StatusCodes.BAD_REQUEST,
   message: 'Insufficient assets in portfolio ',
 };
 
@@ -19,9 +19,15 @@ const nonexistentClientError = {
   message: 'Client does not exist',
 };
 
+const loginError = {
+  code: StatusCodes.UNAUTHORIZED,
+  message: 'Incorrect username or password',
+};
+
 module.exports = {
   insufficientAssetsError,
   insufficientFundsError,
   insufficientPortfolioError,
   nonexistentClientError,
+  loginError,
 };

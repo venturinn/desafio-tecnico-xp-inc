@@ -42,7 +42,7 @@ module.exports = {
           cod_cliente: 66666,
           nome: 'Diego Venturin',
           email: 'venturin@email.com',
-          senha: '523456',
+          senha: '623456',
           saldo: 6000,
         },
       ],

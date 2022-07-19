@@ -12,8 +12,6 @@ const login = async (email, senha) => {
     return { error: loginError };
   }
 
-  console.log(client);
-
   return generateToken(client.dataValues);
 };
 

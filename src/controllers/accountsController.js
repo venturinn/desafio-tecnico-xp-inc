@@ -1,8 +1,15 @@
 const { StatusCodes } = require('http-status-codes');
 const accountsService = require('../services/accountsService');
+const { authorizationError } = require('../utils/errors');
 
 const getAccountBalanceByClientId = async (req, res, next) => {
     const { id } = req.params;
+
+    const codClientToken = req.user;
+    if (codClientToken !== Number(id)) {
+      return next(authorizationError);
+    }
+
     const accountBalance = await accountsService.getAccountBalanceByClientId(id);
 
     if (accountBalance.error) { return next(accountBalance.error); }
@@ -29,6 +36,12 @@ const makeAccountWithdrawal = async (req, res, next) => {
 
 const getPortfolioByClientId = async (req, res, next) => {
     const { id } = req.params;
+
+    const codClientToken = req.user;
+    if (codClientToken !== Number(id)) {
+      return next(authorizationError);
+    }
+
     const accountPortfolio = await accountsService.getPortfolioByClientId(id);
 
     if (accountPortfolio.error) { return next(accountPortfolio.error); }

@@ -1,7 +1,7 @@
-const { StatusCodes } = require('http-status-codes');
 const Joi = require('joi');
+const { loginvalidateError } = require('../utils/errors');
 
-module.exports = (req, res, next) => {
+module.exports = (req, _res, next) => {
   const { email, senha } = req.body;
   const { error } = Joi.object({
     email: Joi.string().email().required(),
@@ -9,8 +9,7 @@ module.exports = (req, res, next) => {
   }).validate({ email, senha });
 
   if (error) {
-    return res.status(StatusCodes.BAD_REQUEST)
-    .json({ message: 'Some required fields are missing' });
+    return next(loginvalidateError);
   }
   
   next();

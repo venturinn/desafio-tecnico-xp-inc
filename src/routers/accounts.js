@@ -6,6 +6,7 @@ const { accountTransactionValidate } = require('../middlewares');
 const accountsRouter = express.Router();
 
 accountsRouter.get('/:id', accountsController.getAccountBalanceByClientId);
+accountsRouter.get('/ativos/:id', accountsController.getPortfolioByClientId);
 
 accountsRouter.post(
   '/deposito',

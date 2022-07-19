@@ -27,8 +27,18 @@ const makeAccountWithdrawal = async (req, res, next) => {
     res.status(StatusCodes.OK).json(newAccountBalance);
 };
 
+const getPortfolioByClientId = async (req, res, next) => {
+    const { id } = req.params;
+    const accountPortfolio = await accountsService.getPortfolioByClientId(id);
+
+    if (accountPortfolio.error) { return next(accountPortfolio.error); }
+
+    res.status(StatusCodes.OK).json(accountPortfolio);
+};
+
 module.exports = {
     getAccountBalanceByClientId,
     makeAccountDeposit,
     makeAccountWithdrawal,
+    getPortfolioByClientId,
 };

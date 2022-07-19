@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const config = require('../db/config/config');
 
 const sequelize = new Sequelize(config.development);
-const { Cliente, Extrato } = require('../db/models');
+const { Cliente, Extrato, Ativo } = require('../db/models');
 
 const { nonexistentClientError, insufficientFundsError } = require('../utils/errors');
 
@@ -67,8 +67,44 @@ const makeAccountWithdrawal = async (codCliente, valor) => {
   return newAccountBalance;
 };
 
+const standardizeResult = (portfolio) => {
+    const portfolioApiPattern = [];
+
+    portfolio[0].ativos.forEach((ativo) => {
+        portfolioApiPattern.push({
+           codCliente: portfolio[0].codCliente,
+           codAtivo: ativo.codAtivo,
+           qtdeAtivo: ativo.Carteira.qtdeAtivo,
+           valor: ativo.Carteira.qtdeAtivo * ativo.valor,
+        });
+    });
+
+    return portfolioApiPattern;
+};
+
+const getPortfolioByClientId = async (codCliente) => {
+   const verifyClientId = await getAccountBalanceByClientId(codCliente);
+
+   if (verifyClientId.error) { return verifyClientId; }
+
+    const portfolio = await Cliente.findAll({ 
+        where: { codCliente },
+        include: [{ 
+        model: Ativo,
+        as: 'ativos', 
+        attributes: ['codAtivo', 'valor'], 
+        through: { attributes: ['qtdeAtivo'] } }],
+        attributes: ['codCliente'],
+    });
+
+    if (portfolio.lenght === 0) { return portfolio; }
+  
+    return standardizeResult(portfolio);
+  };
+
 module.exports = {
   getAccountBalanceByClientId,
   makeAccountDeposit,
   makeAccountWithdrawal,
+  getPortfolioByClientId,
 };

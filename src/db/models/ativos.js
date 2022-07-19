@@ -17,4 +17,6 @@ const Ativo = (sequelize, DataTypes) => {
   return Ativo;
 };
 
+
+
 module.exports = Ativo;

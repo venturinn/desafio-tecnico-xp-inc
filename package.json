@@ -4,11 +4,12 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --timeout 15000 ./src/tests/**/*$NAME*.test.js --exit",
+    "test": "NODE_ENV=test mocha --timeout 30000 ./src/tests/**/*$NAME*.test.js --exit",
+    "test:coverage":"nyc npm test",
     "dev": "nodemon src/index.js",
     "start": "node .",
-    "db-create": "npx sequelize-cli db:create" ,
-    "db-migrate":"npx sequelize-cli db:migrate",
+    "db-create": "npx sequelize-cli db:create",
+    "db-migrate": "npx sequelize-cli db:migrate",
     "db-seed": "npx sequelize-cli db:seed:all",
     "db-drop": "npx sequelize-cli db:drop"
   },
@@ -30,8 +31,9 @@
     "eslint-plugin-sonarjs": "^0.13.0",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.19",
-    "sinon": "^14.0.0",
-    "shelljs": "^0.8.5"
+    "nyc": "^15.1.0",
+    "shelljs": "^0.8.5",
+    "sinon": "^14.0.0"
   },
   "dependencies": {
     "dotenv": "^16.0.1",

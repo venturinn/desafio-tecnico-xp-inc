@@ -7,7 +7,7 @@ const login = async (req, res, next) => {
 
     if (token.error) { return next(token.error); }
 
-    res.status(StatusCodes.OK).json({ token });
+    res.status(StatusCodes.OK).json(token);
 };
 
 module.exports = {

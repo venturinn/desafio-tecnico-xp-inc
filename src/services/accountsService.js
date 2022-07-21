@@ -1,8 +1,15 @@
 const { StatusCodes } = require('http-status-codes');
 const Sequelize = require('sequelize');
+// const { development } = require('../db/config/config');
 const config = require('../db/config/config');
 
-const sequelize = new Sequelize(config.development);
+require('dotenv/config');
+
+const { NODE_ENV } = process.env;
+let sequelizeEnv = 'development';
+if (NODE_ENV === 'test') { sequelizeEnv = 'test'; }
+
+const sequelize = new Sequelize(config[sequelizeEnv]);
 const { Cliente, Extrato, Ativo } = require('../db/models');
 
 const { nonexistentClientError, insufficientFundsError } = require('../utils/errors');
@@ -17,7 +24,7 @@ const getAccountBalanceByClientId = async (id) => {
   }
 
   accountBalance.saldo = Number(accountBalance.saldo); // MySQL decimal field returned as string
-  return accountBalance;
+  return accountBalance.dataValues;
 };
 
 const makeAccountTransaction = async (codCliente, valor, newSaldo, transactionType) => {

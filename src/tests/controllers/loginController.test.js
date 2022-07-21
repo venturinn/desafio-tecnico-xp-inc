@@ -12,13 +12,13 @@ describe("Controller: ao chamar o controller de login", () => {
     describe("Quando o email OU senha informados NÃO correspondem ao cadastro no banco", () => {
       const mockServicesReturn = {
         error: {
-          code: 404,
-          message: "Client does not exist",
+          code: 401,
+          message: "Incorrect username or password",
         },
       };
 
       before(() => {
-        req.body = { email: "fakeuser@emil.com", senha: "wrongpassword" };
+        req.body = { email: "fakeuser@email.com", senha: "wrongpassword" };
         res.status = sinon.stub().returns(res);
         res.json = sinon.stub().returns();
         next = sinon.stub().returns();
@@ -39,7 +39,7 @@ describe("Controller: ao chamar o controller de login", () => {
       const mockServicesReturn = "ThisIsAtoken";
 
       before(() => {
-        req.body = { email: "realuser@emil.com", senha: "rightpassword" };
+        req.body = { email: "realuser@email.com", senha: "rightpassword" };
         res.status = sinon.stub().returns(res);
         res.json = sinon.stub().returns();
         sinon.stub(loginService, "login").resolves(mockServicesReturn);
@@ -56,7 +56,7 @@ describe("Controller: ao chamar o controller de login", () => {
 
       it("é chamado o json com a mensagem correta", async () => {
         await loginController.login(req, res, next);
-        expect(res.json.calledWith({ token: mockServicesReturn })).to.be.equal(
+        expect(res.json.calledWith(mockServicesReturn)).to.be.equal(
           true
         );
       });

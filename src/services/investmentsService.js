@@ -3,7 +3,13 @@ const Sequelize = require('sequelize');
 const { Ativo, Cliente, Carteira, Extrato } = require('../db/models');
 const config = require('../db/config/config');
 
-const sequelize = new Sequelize(config.development);
+require('dotenv/config');
+
+const { NODE_ENV } = process.env;
+let sequelizeEnv = 'development';
+if (NODE_ENV === 'test') { sequelizeEnv = 'test'; }
+
+const sequelize = new Sequelize(config[sequelizeEnv]);
 const assetsService = require('./assetsService');
 const accountsService = require('./accountsService');
 const { insufficientAssetsError,
@@ -111,7 +117,7 @@ const buyAsset = async (codCliente, codAtivo, qtdeAtivo) => {
 
   await assetTransaction(transactionData);
 
-  return 'Buy transaction done.';
+  return { message: 'Buy transaction done.' };
 };
 
 // eslint-disable-next-line max-lines-per-function
@@ -144,7 +150,7 @@ const sellAsset = async (codCliente, codAtivo, qtdeAtivo) => {
 
   await assetTransaction(transactionData);
 
-  return 'Sell transaction done.';
+  return { message: 'Sell transaction done.' };
 };
 
 module.exports = {

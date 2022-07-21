@@ -4,6 +4,16 @@ module.exports = {
       "Carteiras",
       [
         {
+          cod_cliente: 77777,
+          cod_ativo: 'PETR4',
+          qtde_ativo: 3000,
+        },
+        {
+          cod_cliente: 77777,
+          cod_ativo: 'BBAS3',
+          qtde_ativo: 6000,
+        },
+        {
           cod_cliente: 11111,
           cod_ativo: 'OIBR3',
           qtde_ativo: 3000,
@@ -80,7 +90,7 @@ module.exports = {
         },
         {
           cod_cliente: 66666,
-          cod_ativo: 'GOGNA3',
+          cod_ativo: 'PETR4',
           qtde_ativo: 33000,
         },
       ],

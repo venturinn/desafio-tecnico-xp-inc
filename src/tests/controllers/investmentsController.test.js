@@ -57,7 +57,7 @@ describe("Controller: ao chamar o controller de investments", () => {
       it("é chamado o json com a mensagem correta", async () => {
         await investmentsController.buyAsset(req, res, next);
         expect(
-          res.json.calledWith({ message: mockServicesReturn })
+          res.json.calledWith(mockServicesReturn)
         ).to.be.equal(true);
       });
     });
@@ -116,7 +116,7 @@ describe("Controller: ao chamar o controller de investments", () => {
       it("é chamado o json com a mensagem correta", async () => {
         await investmentsController.sellAsset(req, res, next);
         expect(
-          res.json.calledWith({ message: mockServicesReturn })
+          res.json.calledWith(mockServicesReturn)
         ).to.be.equal(true);
       });
     });

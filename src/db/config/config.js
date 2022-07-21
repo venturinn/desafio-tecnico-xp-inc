@@ -1,30 +1,28 @@
 require('dotenv/config');
 
-const { DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_HOST, DB_PORT, DB_DIALECT } = process.env;
-
 module.exports = {
   development: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
-    database: DB_DATABASE,
-    host: DB_HOST,
-    port: DB_PORT,
-    dialect: DB_DIALECT,
+    username: process.env.DB_USERNAME_DEV,
+    password: process.env.DB_PASSWORD_DEV,
+    database: process.env.DB_DATABASE_DEV,
+    host: process.env.DB_HOST_DEV,
+    port: process.env.DB_PORT_DEV,
+    dialect: process.env.DB_DIALECT_DEV,
   },
   test: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
-    database: DB_DATABASE,
-    host: DB_HOST,
-    port: DB_PORT,
-    dialect: DB_DIALECT,
+    username: process.env.DB_USERNAME_TEST,
+    password: process.env.DB_PASSWORD_TEST,
+    database: process.env.DB_DATABASE_TEST,
+    host: process.env.DB_HOST_TEST,
+    port: process.env.DB_PORT_TEST,
+    dialect: process.env.DB_DIALECT_TEST,
   },
   production: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
-    database: DB_DATABASE,
-    host: DB_HOST,
-    port: DB_PORT,
-    dialect: DB_DIALECT,
+    username: process.env.DB_USERNAME_PROD,
+    password: process.env.DB_PASSWORD_PROD,
+    database: process.env.DB_DATABASE_PROD,
+    host: process.env.DB_HOST_PROD,
+    port: process.env.DB_PORT_PROD,
+    dialect: process.env.DB_DIALEC_PROD,
   },
 };

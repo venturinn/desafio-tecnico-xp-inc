@@ -7,7 +7,7 @@ const buyAsset = async (req, res, next) => {
 
   if (buyResult.error) { return next(buyResult.error); }
 
-  res.status(StatusCodes.OK).json({ message: buyResult });
+  res.status(StatusCodes.OK).json(buyResult);
 };
 
 const sellAsset = async (req, res, next) => {
@@ -16,7 +16,7 @@ const sellAsset = async (req, res, next) => {
   
     if (sellResult.error) { return next(sellResult.error); }
   
-    res.status(StatusCodes.OK).json({ message: sellResult });
+    res.status(StatusCodes.OK).json(sellResult);
   };
 
 module.exports = {

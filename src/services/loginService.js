@@ -12,7 +12,7 @@ const login = async (email, senha) => {
     return { error: loginError };
   }
 
-  return generateToken(client.dataValues);
+  return { token: generateToken(client.dataValues) };
 };
 
 module.exports = {

@@ -11,7 +11,7 @@ const insufficientFundsError = {
 
 const insufficientPortfolioError = {
   code: StatusCodes.BAD_REQUEST,
-  message: 'Insufficient assets in portfolio ',
+  message: 'Insufficient assets in portfolio',
 };
 
 const nonexistentClientError = {

@@ -45,6 +45,13 @@ module.exports = {
           senha: '623456',
           saldo: 6000,
         },
+        {
+          cod_cliente: 77777,
+          nome: 'Cliente da XP',
+          email: 'cliente@email.com',
+          senha: '723456',
+          saldo: 6000,
+        },
       ],
       { timestamps: false },
     );

@@ -18,7 +18,7 @@ const Extrato = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING(),
       },
-      createdAt: { type: "TIMESTAMP", field: "Data" },
+      createdAt: { type: "TIMESTAMP", field: "data" },
     },
 
     {

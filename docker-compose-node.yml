@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  backend:
+    container_name: desafio-xp-node
+    build: .
+    command: sh ./init-db.sh
+    ports:
+      - 3000:3000
+    restart: on-failure
+    environment:
+      NODE_ENV: development
+      JWT_SECRET: 654321
+      PORT: 3000
+      DB_USERNAME_DEV: root
+      DB_PASSWORD_DEV: password
+      DB_DATABASE_DEV: xp-home-broker
+      DB_HOST_DEV: db
+      DB_PORT_DEV: 3306
+      DB_DIALECT_DEV: mysql

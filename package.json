@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha --timeout 30000 ./src/tests/**/*$NAME*.test.js --exit",
-    "test:coverage":"nyc npm test",
+    "test:coverage": "nyc npm test",
     "dev": "nodemon src/index.js",
     "start": "node .",
     "db-create": "npx sequelize-cli db:create",
@@ -43,6 +43,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
+    "pq": "^0.0.3",
     "sequelize": "^6.21.3",
     "sequelize-cli": "^6.4.1"
   }

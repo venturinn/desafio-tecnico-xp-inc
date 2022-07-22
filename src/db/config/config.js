@@ -23,6 +23,6 @@ module.exports = {
     database: process.env.DB_DATABASE_PROD,
     host: process.env.DB_HOST_PROD,
     port: process.env.DB_PORT_PROD,
-    dialect: process.env.DB_DIALEC_PROD,
+    dialect: process.env.DB_DIALECT_PROD,
   },
 };

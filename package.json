@@ -2,9 +2,16 @@
   "name": "desafio-tecnico-xp-inc",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test mocha --timeout 30000 ./src/tests/**/*$NAME*.test.js --exit",
+    "test:coverage": "nyc npm test",
+    "dev": "nodemon src/index.js",
+    "start": "node .",
+    "db-create": "npx sequelize-cli db:create",
+    "db-migrate": "npx sequelize-cli db:migrate",
+    "db-seed": "npx sequelize-cli db:seed:all",
+    "db-drop": "npx sequelize-cli db:drop"
   },
   "repository": {
     "type": "git",
@@ -16,5 +23,30 @@
   "bugs": {
     "url": "https://github.com/venturinn/desafio-tecnico-xp-inc/issues"
   },
-  "homepage": "https://github.com/venturinn/desafio-tecnico-xp-inc#readme"
+  "homepage": "https://github.com/venturinn/desafio-tecnico-xp-inc#readme",
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "eslint": "^8.19.0",
+    "eslint-config-trybe-fundamentals": "^1.1.1",
+    "eslint-plugin-sonarjs": "^0.13.0",
+    "mocha": "^10.0.0",
+    "nodemon": "^2.0.19",
+    "nyc": "^15.1.0",
+    "shelljs": "^0.8.5",
+    "sinon": "^14.0.0"
+  },
+  "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
+    "http-status-codes": "^2.2.0",
+    "joi": "^17.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "pg": "^8.7.3",
+    "pq": "^0.0.3",
+    "sequelize": "^6.21.3",
+    "sequelize-cli": "^6.4.1"
+  }
 }

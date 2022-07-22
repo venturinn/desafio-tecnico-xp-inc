@@ -6,10 +6,8 @@ const config = require('../db/config/config');
 require('dotenv/config');
 
 const { NODE_ENV } = process.env;
-let sequelizeEnv = 'development';
-if (NODE_ENV === 'test') { sequelizeEnv = 'test'; }
 
-const sequelize = new Sequelize(config[sequelizeEnv]);
+const sequelize = new Sequelize(config[NODE_ENV]);
 const { Cliente, Extrato, Ativo } = require('../db/models');
 
 const { nonexistentClientError, insufficientFundsError } = require('../utils/errors');

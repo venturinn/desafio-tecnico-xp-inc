@@ -1,6 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
 const Sequelize = require('sequelize');
-// const { development } = require('../db/config/config');
 const config = require('../db/config/config');
 
 require('dotenv/config');
@@ -21,7 +20,7 @@ const getAccountBalanceByClientId = async (id) => {
     return { error: nonexistentClientError };
   }
 
-  accountBalance.saldo = Number(accountBalance.saldo); // MySQL decimal field returned as string
+  accountBalance.saldo = Number(accountBalance.saldo);
   return accountBalance.dataValues;
 };
 
@@ -79,7 +78,7 @@ const standardizeResult = (portfolio) => {
         portfolioApiPattern.push({
            codCliente: portfolio[0].codCliente,
            codAtivo: ativo.codAtivo,
-           qtdeAtivo: ativo.Carteira.qtdeAtivo,
+           qtdeAtivo: Number(ativo.Carteira.qtdeAtivo),
            valor: ativo.Carteira.qtdeAtivo * ativo.valor,
         });
     });

@@ -1,0 +1,861 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Desafio Técnico XP",
+        "description": "API desenvolvida por Diego Venturin para o processo seletivo XP"
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        }
+    },
+    "servers": [
+        {
+          "url": "https://venturin-xp.herokuapp.com",
+          "description": "URL Produção"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "summary": "Logar na conta",
+                "description": "Endpoint responsável por efetuar o login do cliente na conta",
+                "tags": [
+                    "Login:"
+                ],
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "senha": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "login": {
+                                    "summary": "login",
+                                    "value": {
+                                        "email": "cliente@email.com",
+                                        "senha": "723456"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "loginSuccess": {
+                                        "summary": "Sucesso",
+                                        "value": {
+                                            "token": "eyJhbGciOiiIkpXVCJ9.eyJjMDIzLCg2Njg0MjN9.m_u-ssoihJs2YnzoanrMH96w"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "loginFail": {
+                                        "summary": "Email ou senha incorretos",
+                                        "value": {
+                                            "message": "Incorrect username or password"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/investimentos/comprar": {
+            "post": {
+                "summary": "Compra Ativo",
+                "description": "Endpoint responsável por efetuar a compra de ativos financeiros",
+                "tags": [
+                    "Investimentos:"
+                ],
+                "security": [{
+                    "ApiKeyAuth": []
+                }],
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codCliente": {
+                                        "type": "integer"
+                                    },
+                                    "codAtivo": {
+                                        "type": "string"
+                                    },
+                                    "qtdeAtivo": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "body": {
+                                    "summary": "Comprar",
+                                    "value": {
+                                        "codCliente": 77777,
+                                        "codAtivo": "PETR4",
+                                        "qtdeAtivo": 200
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestHeader": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codCliente": {
+                                        "type": "integer"
+                                    },
+                                    "codAtivo": {
+                                        "type": "string"
+                                    },
+                                    "qtdeAtivo": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "body": {
+                                    "summary": "Comprar",
+                                    "value": {
+                                        "codCliente": 77777,
+                                        "codAtivo": "PETR4",
+                                        "qtdeAtivo": 200
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "buySuccess": {
+                                        "summary": "Sucesso",
+                                        "value": {
+                                            "messsage": "Buy transaction done."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "buyIdUserFail": {
+                                        "summary": "Id do cliente enviado diferente do Id logado",
+                                        "value": {
+                                            "message": "Service requested is not permitted to the user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "buyIdAssetFail": {
+                                        "summary": "ID do ativo não existe",
+                                        "value": {
+                                            "message": "Asset {codAtivo} does not exist"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "buyIlliquidFail": {
+                                        "summary": "Quantidade maior do que a liquidez do mercado",
+                                        "value": {
+                                            "message": "Asset illiquid"
+                                        }
+                                    },
+                                    "buyFundsFail": {
+                                        "summary": "Saldo da conta insuficiente",
+                                        "value": {
+                                            "message": "Insufficient funds"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/investimentos/vender": {
+            "post": {
+                "summary": "Vender Ativo",
+                "description": "Endpoint responsável por efetuar a venda de ativos financeiros",
+                "tags": [
+                    "Investimentos:"
+                ],
+                "security": [{
+                    "ApiKeyAuth": []
+                }],
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codCliente": {
+                                        "type": "integer"
+                                    },
+                                    "codAtivo": {
+                                        "type": "string"
+                                    },
+                                    "qtdeAtivo": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "body": {
+                                    "summary": "Vender",
+                                    "value": {
+                                        "codCliente": 77777,
+                                        "codAtivo": "IRBR3",
+                                        "qtdeAtivo": 1000
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "sellSuccess": {
+                                        "summary": "Sucesso",
+                                        "value": {
+                                            "messsage": "Sell transaction done."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "sellIdUserFail": {
+                                        "summary": "Id do cliente enviado diferente do Id logado",
+                                        "value": {
+                                            "message": "Service requested is not permitted to the user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "sellIdAssetFail": {
+                                        "summary": "ID do ativo não existe",
+                                        "value": {
+                                            "message": "Asset {codAtivo} does not exist"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "sellFundsFail": {
+                                        "summary": "Quantidade insuficiente na carteira",
+                                        "value": {
+                                            "message": "Insufficient assets in portfolio"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ativos/{id}": {
+            "get": {
+                "summary": "Consultar cotação",
+                "description": "Endpoint responsável por realizar a consulta da cotação de uma ativo",
+                "tags": [
+                    "Ativos:"
+                ],
+                "security": [{
+                    "ApiKeyAuth": []
+                }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do ativo",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "codAtivo": {
+                                            "type": "string"
+                                        },
+                                        "qtdeAtivo": {
+                                            "type": "integer"
+                                        },
+                                        "valor": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "sellSuccess": {
+                                        "summary": "Sucesso",
+                                        "value": {
+                                            "codAtivo": "PETR4",
+                                            "qtdeAtivo": 1000000,
+                                            "valor": 27.96
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "sellIdAssetFail": {
+                                        "summary": "ID do ativo não existe",
+                                        "value": {
+                                            "message": "Asset {codAtivo} does not exist"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/conta/deposito": {
+            "post": {
+                "summary": "Realizar depósito",
+                "description": "Endpoint responsável por efetuar um depósito na conta de investimentos do cliente",
+                "tags": [
+                    "Conta:"
+                ],
+                "security": [{
+                    "ApiKeyAuth": []
+                }],
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codCliente": {
+                                        "type": "integer"
+                                    },
+                                    "valor": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "body": {
+                                    "summary": "Depositar",
+                                    "value": {
+                                        "codCliente": 77777,
+                                        "valor": 1000.00
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "codCliente": {
+                                            "type": "integer"
+                                        },
+                                        "saldo": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "depositSuccess": {
+                                        "summary": "Sucesso",
+                                        "value": {
+                                            "codCliente": 77777,
+                                            "saldo": 500000.13
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "sellIdUserFail": {
+                                        "summary": "Id do cliente enviado diferente do Id logado",
+                                        "value": {
+                                            "message": "Service requested is not permitted to the user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/conta/saque": {
+            "post": {
+                "summary": "Realizar retirada",
+                "description": "Endpoint responsável por efetuar a retirada de recursos da conta de investimentos do cliente",
+                "tags": [
+                    "Conta:"
+                ],
+                "security": [{
+                    "ApiKeyAuth": []
+                }],
+                "requestBody": {
+                    "required": "true",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "codCliente": {
+                                        "type": "integer"
+                                    },
+                                    "valor": {
+                                        "type": "integer"
+                                    }
+                                }
+                            },
+                            "examples": {
+                                "body": {
+                                    "summary": "Retirar",
+                                    "value": {
+                                        "codCliente": 77777,
+                                        "valor": 100.00
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "codCliente": {
+                                            "type": "integer"
+                                        },
+                                        "saldo": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "withdrawalSuccess": {
+                                        "summary": "Sucesso",
+                                        "value": {
+                                            "codCliente": 77777,
+                                            "saldo": 500.11
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "withdrawalIdUserFail": {
+                                        "summary": "Id do cliente enviado diferente do Id logado",
+                                        "value": {
+                                            "message": "Service requested is not permitted to the user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "withdrawalFoundsFail": {
+                                        "summary": "Saldo da conta é insufiente",
+                                        "value": {
+                                            "message": "Insufficient funds"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/conta/{id}": {
+            "get": {
+                "summary": "Consultar o saldo",
+                "description": "Endpoint responsável por efetuar a consulta do saldo da conta de investimentos do cliente",
+                "tags": [
+                    "Conta:"
+                ],
+                "security": [{
+                    "ApiKeyAuth": []
+                }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do cliente",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "codCliente": {
+                                            "type": "integer"
+                                        },
+                                        "saldo": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "accountSuccess": {
+                                        "summary": "Sucesso",
+                                        "value": {
+                                            "codCliente": 77777,
+                                            "saldo": 10000.12
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "accountFail": {
+                                        "summary": "Id do cliente enviado diferente do Id logado",
+                                        "value": {
+                                            "message": "Service requested is not permitted to the user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/conta/ativos/{id}": {
+            "get": {
+                "summary": "Consultar a carteira",
+                "description": "Endpoint responsável por efetuar a consulta da carteira de investimentos do cliente",
+                "tags": [
+                    "Conta:"
+                ],
+                "security": [{
+                    "ApiKeyAuth": []
+                }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do cliente",
+                        "required": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "codCliente": {
+                                                "type": "integer"
+                                            },
+                                            "codAtivo": {
+                                                "type": "string"
+                                            },
+                                            "qtdeAtivo": {
+                                                "type": "integer"
+                                            },
+                                            "valor": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "portfolioWithAssets": {
+                                        "summary": "Cliente com ativos na carteira",
+                                        "value": [
+                                            {
+                                                "codCliente": 77777,
+                                                "codAtivo": "PETR4",
+                                                "qtdeAtivo": 3000,
+                                                "valor": 83400.00
+                                            }
+                                        ]
+                                    },
+                                    "portfolioWithoutAssets": {
+                                        "summary": "Cliente sem ativos na carteira",
+                                        "value": []
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "accountFail": {
+                                        "summary": "Id do cliente enviado diferente do Id logado",
+                                        "value": {
+                                            "message": "Service requested is not permitted to the user"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

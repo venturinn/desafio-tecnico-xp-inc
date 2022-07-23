@@ -120,7 +120,7 @@ describe("Service: ao chamar o service de login", () => {
           "cliente@email.com",
           "723456"
         );
-        expect(response.token.length).to.be.equal(184);
+        expect(response.token.length).to.be.equal(153);
       });
     });
   });

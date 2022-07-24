@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --timeout 30000 ./src/tests/**/*$NAME*.test.js --exit",
+    "test": "NODE_ENV=test mocha --timeout 50000 ./src/tests/**/*$NAME*.test.js --exit",
     "test:coverage": "nyc npm test",
     "dev": "nodemon src/index.js",
     "start": "node .",

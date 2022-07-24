@@ -302,3 +302,7 @@ src
 
   <br/>
 </details>
+
+
+<br/>
+Projeto desenvolvido por Diego Venturin. 😉

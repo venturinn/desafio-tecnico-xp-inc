@@ -1,4 +1,4 @@
-### Olá, esse é o repositório do meu desafio técnico do processo seletivo XP/Trybe. Seja-bem vind@!
+### Olá, esse é o repositório do meu desafio técnico do processo seletivo XP/Trybe. Seja bem-vind@!
 
 Nesse projeto foi desenvolvida uma aplicação backend seguindo os critérios solicitados no desafio com alguns aprimoramentos. 
 
